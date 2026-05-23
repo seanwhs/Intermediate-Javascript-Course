@@ -28,11 +28,11 @@ Mastering Modern JavaScript Architecture
 
 # 🟦 Slide 3 — Core Philosophy Shift
 
-| Before               | After                      |
-| -------------------- | -------------------------- |
-| Loops everywhere     | Functional pipelines       |
-| Mutation-heavy code  | Immutable design           |
-| Procedural logic     | Declarative structure      |
+| Before | After |
+| --- | --- |
+| Loops everywhere | Functional pipelines |
+| Mutation-heavy code | Immutable design |
+| Procedural logic | Declarative structure |
 | Manual data handling | Structured transformations |
 
 ---
@@ -75,6 +75,12 @@ Mastering Modern JavaScript Architecture
 * Multi-line strings
 * Runtime evaluation
 
+```javascript
+// Clean string interpolation without brittle concatenation
+const greet = (user, role) => `Welcome back, ${user}! Role: ${role.toUpperCase()}`;
+
+```
+
 **Outcome:** Dynamic string generation without concatenation
 
 ---
@@ -86,6 +92,18 @@ Mastering Modern JavaScript Architecture
 * Lexical `this`
 * Callback simplification
 
+```javascript
+// Implicit return: no curly braces, no 'return' keyword needed
+const double = x => x * 2; 
+
+// Lexical context: keeps 'this' bound to the surrounding scope
+const logger = {
+  name: 'App',
+  logLater() { setTimeout(() => console.log(this.name), 1000); }
+};
+
+```
+
 **Outcome:** Cleaner functional expressions
 
 ---
@@ -95,6 +113,14 @@ Mastering Modern JavaScript Architecture
 * Runtime defaults
 * Undefined handling
 * Safe function contracts
+
+```javascript
+// Prevents runtime crashes if parameters are missing
+const fetchSettings = (theme = 'dark', retries = 3) => {
+  return { theme, retries };
+};
+
+```
 
 **Outcome:** Defensive, stable functions
 
@@ -116,6 +142,15 @@ Mastering Modern JavaScript Architecture
 * Clone arrays/objects
 * Immutable updates
 
+```javascript
+// Shallow clone and merge without modifying the original object
+const updateProfile = (user, updates) => ({ ...user, ...updates, updatedAt: Date.now() });
+
+// Pure array expansion
+const numbers = [1, 2, ...moreNumbers];
+
+```
+
 **Key idea:** “Extract without mutation”
 
 ---
@@ -126,6 +161,12 @@ Mastering Modern JavaScript Architecture
 * Flexible function signatures
 * Variadic functions
 
+```javascript
+// Captures infinite remaining arguments into a clean array
+const sumAll = (multiplier, ...numbers) => numbers.map(n => n * multiplier);
+
+```
+
 **Key idea:** “Aggregate inputs safely”
 
 ---
@@ -135,6 +176,15 @@ Mastering Modern JavaScript Architecture
 * `for...in` vs `for...of`
 * Ternary operator
 * Iteration vs enumeration
+
+```javascript
+// Use for...of to iterate over array values directly
+for (const item of items) { console.log(item); }
+
+// Use for...in to enumerate object properties safely
+for (const key in config) { console.log(`${key}: ${config[key]}`); }
+
+```
 
 **Key idea:** Choose structure over loops
 
@@ -156,6 +206,14 @@ Mastering Modern JavaScript Architecture
 * Inline mapping
 * Clean parameter handling
 
+```javascript
+// Pluck keys structurally right in the parameter signature
+const renderCard = ({ title, meta: { views } }) => {
+  console.log(`Card: ${title} (${views} views)`);
+};
+
+```
+
 ---
 
 # 🟦 Slide 16 — Array Destructuring
@@ -164,6 +222,15 @@ Mastering Modern JavaScript Architecture
 * Skipping values
 * Swapping variables
 
+```javascript
+// Unpack coordinates by array index positioning
+const [lat, lng] = getCoordinates();
+
+// Elegant variable swap without a third 'temp' variable
+[b, a] = [a, b];
+
+```
+
 ---
 
 # 🟦 Slide 17 — Payload Normalization
@@ -171,6 +238,16 @@ Mastering Modern JavaScript Architecture
 * Rename keys
 * Flatten nested data
 * API response shaping
+
+```javascript
+// Map unpredictable API payloads to clean internal names
+const normalizeUser = ({ user_id: id, user_email: email, active = false }) => ({
+  id,
+  email,
+  isActive: active
+});
+
+```
 
 **Outcome:** Clean data contracts
 
@@ -193,6 +270,14 @@ Mastering Modern JavaScript Architecture
 * Transform data (`map`)
 * Remove data (`filter`)
 
+```javascript
+// Pure, chainable data transformations
+const activeEmails = users
+  .filter(user => user.isActive)    // Drop inactive items
+  .map(user => user.email);         // Project specific field
+
+```
+
 **Key idea:** immutable transformations
 
 ---
@@ -203,6 +288,13 @@ Mastering Modern JavaScript Architecture
 * `every` → all pass
 * `some` → at least one
 
+```javascript
+// Expressive boolean validation without manual break loops
+const canPublish = roles.some(role => role === 'admin');
+const allValid = steps.every(step => step.isComplete);
+
+```
+
 **Key idea:** declarative validation
 
 ---
@@ -212,6 +304,17 @@ Mastering Modern JavaScript Architecture
 * Accumulation logic
 * Frequency maps
 * Aggregation pipelines
+
+```javascript
+// Transform an array into a single composite value or lookup dictionary
+const inventoryTotal = items.reduce((total, item) => total + item.price, 0);
+
+const keyCount = tags.reduce((acc, tag) => {
+  acc[tag] = (acc[tag] || 0) + 1; // Build a quick frequency tally
+  return acc;
+}, {});
+
+```
 
 **Key idea:** “Many → One transformation”
 
@@ -233,6 +336,13 @@ Mastering Modern JavaScript Architecture
 * Any key type
 * Ordered entries
 
+```javascript
+// High-performance key-value lookups allowing objects as keys
+const cache = new Map();
+cache.set(domElement, { clicked: true });
+
+```
+
 **Use case:** caches, registries
 
 ---
@@ -243,6 +353,16 @@ Mastering Modern JavaScript Architecture
 * Fast lookup
 * Deduplication
 
+```javascript
+// Instant array deduplication using Set value constraints
+const uniqueTags = [...new Set(duplicateTags)];
+
+// O(1) performance lookup check
+const highPriority = new Set(['admin', 'editor']);
+const hasAccess = highPriority.has(userRole);
+
+```
+
 ---
 
 # 🟦 Slide 25 — Symbol
@@ -250,6 +370,13 @@ Mastering Modern JavaScript Architecture
 * Unique identifiers
 * Collision-free keys
 * Hidden object properties
+
+```javascript
+// Create globally unique keys that won't overwrite other properties
+const PRIVATE_ID = Symbol('id');
+const activeUser = { [PRIVATE_ID]: 101, name: 'Sean' };
+
+```
 
 ---
 
