@@ -523,7 +523,3 @@ By the end of this course, students must be able to confidently demonstrate thes
 2. **Write Declarative Pipelines:** Replace legacy loops with modern, immutable higher-order array methods.
 3. **Establish Data Contracts:** Use structural destructuring and aliasing to safely ingest and normalize unpredictable external payloads.
 4. **Select Optimal Primitives:** Choose the right collection type (Object, Map, Set, or Symbol) based on structural needs and performance metrics.
-
-Select Optimal Primitives: Choose the right collection type (Object, Map, Set, or Symbol) based on structural needs and performance metrics.
-3. **Establish Data Contracts:** Use structural destructuring and aliasing to safely ingest and normalize unpredictable external payloads.
-4. **Select Optimal Primitives:** Choose the right collection type (`Object`, `Map`, `Set`, or `Symbol`) based on structural needs and performance metrics.
